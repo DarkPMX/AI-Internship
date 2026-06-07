@@ -1,0 +1,8 @@
+print("My name is Mannanvirr")
+print("I am 13 years old")
+print("I am from India")
+print("I am studying in 8th grade in Lotusvalley International School, Noida")
+print("I am learning Python")
+print("I want to be a software developer in the future")
+print("I am excited to learn more about programming and create amazing projects!")
+print("I am also interested in artificial intelligence and machine learning")
