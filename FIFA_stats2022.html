@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIFA Stats | Premium Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        charcoal: '#121212',
+                        forest: '#0a2a12',
+                        pitch: '#2ecc71',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            border-color: #2ecc71;
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.2);
+        }
+        body {
+            background: radial-gradient(circle at top right, #1a3a2a, #121212);
+            color: white;
+            min-height: 100vh;
+        }
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 glass border-b border-white/10 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-pitch rounded-full flex items-center justify-center font-bold text-charcoal">F</div>
+                <h1 class="text-xl font-bold tracking-tight uppercase">FIFA Stats</h1>
+            </div>
+            <div class="flex items-center gap-4 w-full md:w-auto">
+                <input type="text" id="searchBar" placeholder="Search players..." class="bg-black/40 border border-white/10 rounded-lg px-4 py-2 w-full md:w-64 focus:outline-none focus:border-pitch transition-all">
+                <select class="bg-black/40 border border-white/10 rounded-lg px-4 py-2 focus:outline-none">
+                    <option>2022</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 space-y-8">
+        
+        <!-- KPI Hero -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass p-8 rounded-2xl flex items-center justify-between card-hover transition-all">
+                <div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest">Total Goals</p>
+                    <h2 class="text-5xl font-bold font-mono text-pitch mt-2">172</h2>
+                </div>
+                <div class="text-pitch/30 text-6xl">⚽</div>
+            </div>
+            <div class="glass p-8 rounded-2xl flex items-center justify-between card-hover transition-all">
+                <div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest">Matches Played</p>
+                    <h2 class="text-5xl font-bold font-mono text-pitch mt-2">64</h2>
+                </div>
+                <div class="text-pitch/30 text-6xl">🏟️</div>
+            </div>
+        </section>
+
+        <!-- Winners Grid -->
+        <section>
+            <h3 class="text-2xl font-semibold mb-6">World Cup Winner</h3>
+            <div class="glass p-6 rounded-2xl flex items-center gap-8 card-hover transition-all border-l-4 border-l-pitch">
+                <div class="text-6xl">🇦🇷</div>
+                <div>
+                    <p class="text-sm text-pitch font-bold uppercase">Tournament Winner</p>
+                    <h4 class="text-3xl font-bold">Argentina</h4>
+                    <p class="text-gray-400">2022 FIFA World Cup Edition</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Grids -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Scorers -->
+            <section>
+                <h3 class="text-xl font-semibold mb-4">Top Goal Scorers</h3>
+                <div id="scorersContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Cards injected via JS logic -->
+                    <div class="player-card glass p-4 rounded-xl card-hover" data-name="Kylian Mbappé">
+                        <p class="font-bold">Kylian Mbappé</p>
+                        <p class="text-pitch font-mono text-xl">8 Goals</p>
+                    </div>
+                    <div class="player-card glass p-4 rounded-xl card-hover" data-name="Lionel Messi">
+                        <p class="font-bold">Lionel Messi</p>
+                        <p class="text-pitch font-mono text-xl">7 Goals</p>
+                    </div>
+                    <div class="player-card glass p-4 rounded-xl card-hover" data-name="Julián Álvarez">
+                        <p class="font-bold">Julián Álvarez</p>
+                        <p class="text-pitch font-mono text-xl">4 Goals</p>
+                    </div>
+                    <div class="player-card glass p-4 rounded-xl card-hover" data-name="Olivier Giroud">
+                        <p class="font-bold">Olivier Giroud</p>
+                        <p class="text-pitch font-mono text-xl">4 Goals</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Appearances -->
+            <section>
+                <h3 class="text-xl font-semibold mb-4">Most Appearances</h3>
+                <div class="glass rounded-xl overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-black/20">
+                            <tr>
+                                <th class="p-4 text-xs uppercase tracking-widest text-gray-400">Player</th>
+                                <th class="p-4 text-xs uppercase tracking-widest text-gray-400">Matches</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr class="border-t border-white/5 hover:bg-pitch/10 transition-colors">
+                                <td class="p-4">Lionel Messi</td>
+                                <td class="p-4 font-mono text-pitch">7</td>
+                            </tr>
+                            <tr class="border-t border-white/5 hover:bg-pitch/10 transition-colors">
+                                <td class="p-4">Kylian Mbappé</td>
+                                <td class="p-4 font-mono text-pitch">7</td>
+                            </tr>
+                            <tr class="border-t border-white/5 hover:bg-pitch/10 transition-colors">
+                                <td class="p-4">Antoine Griezmann</td>
+                                <td class="p-4 font-mono text-pitch">7</td>
+                            </tr>
+                            <tr class="border-t border-white/5 hover:bg-pitch/10 transition-colors">
+                                <td class="p-4">Luka Modrić</td>
+                                <td class="p-4 font-mono text-pitch">7</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Search Functionality
+        const searchBar = document.getElementById('searchBar');
+        const cards = document.querySelectorAll('.player-card');
+
+        searchBar.addEventListener('input', (e) => {
+            const val = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                card.style.display = name.includes(val) ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

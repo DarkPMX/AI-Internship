@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICC Cricket World Cup Statistics Center</title>
+    <meta name="description" content="Explore comprehensive statistics, records, team head-to-heads, and interactive analytics of the ICC Cricket World Cup. Includes player comparison tools and history trivia quiz.">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="cwc_styles.css">
+</head>
+<body>
+    <!-- Mobile Navigation Toggle -->
+    <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+        <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Backdrop for Mobile Navigation -->
+    <div class="backdrop" id="sidebar-backdrop"></div>
+
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <span class="logo-icon">🏏</span>
+                <span class="logo-text">CWC STATS</span>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li class="menu-item active" data-tab="dashboard">
+                    <a href="#dashboard">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-tab="standings">
+                    <a href="#standings">
+                        <i data-lucide="trophy"></i>
+                        <span>Standings</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-tab="records">
+                    <a href="#records">
+                        <i data-lucide="notebook-tabs"></i>
+                        <span>Leaderboards</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-tab="comparisons">
+                    <a href="#comparisons">
+                        <i data-lucide="git-compare"></i>
+                        <span>Comparisons</span>
+                    </a>
+                </li>
+                <li class="menu-item" data-tab="quiz">
+                    <a href="#quiz">
+                        <i data-lucide="help-circle"></i>
+                        <span>History Quiz</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <p>ICC CWC Stats v1.0</p>
+                <p>&copy; 2026 Sports Insights</p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header bar -->
+            <header class="dashboard-header">
+                <div class="header-title-section">
+                    <h1 id="page-title"><i data-lucide="layout-dashboard" class="title-icon"></i> CWC Statistics Center</h1>
+                    <p id="page-description">Quick summaries, tournament stats, and insights from 1975 to 2023.</p>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- Global Search -->
+                    <div class="search-bar" id="global-search-container">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="global-search" placeholder="Search players or teams...">
+                    </div>
+                    <!-- Time Pill -->
+                    <div class="info-pill">
+                        <i data-lucide="clock"></i>
+                        <span id="live-time">June 2026</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ================= DASHBOARD TAB ================= -->
+            <section id="dashboard" class="tab-content active">
+                <!-- Summary Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card gold">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value">6 Titles</div>
+                        <div class="stat-label">Most Successful Team</div>
+                        <div class="stat-desc">Australia (Last title: 2023)</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-icon">🏏</div>
+                        <div class="stat-value">2,278</div>
+                        <div class="stat-label">Most Tournament Runs</div>
+                        <div class="stat-desc">Sachin Tendulkar (India, 44 inns)</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-icon">🔴</div>
+                        <div class="stat-value">71 Wkts</div>
+                        <div class="stat-label">Most Tournament Wickets</div>
+                        <div class="stat-desc">Glenn McGrath (Australia, 39 inns)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-value">428/5</div>
+                        <div class="stat-label">Highest Innings Score</div>
+                        <div class="stat-desc">South Africa vs Sri Lanka (2023)</div>
+                    </div>
+                </div>
+
+                <!-- Horizontal Champions Timeline -->
+                <div class="dashboard-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i data-lucide="calendar"></i> World Cup History Timeline</h2>
+                        <span class="info-pill">Swipe to explore &rarr;</span>
+                    </div>
+                    <div class="timeline-container" id="champions-timeline">
+                        <!-- Injected via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Two-Column Layout (Chart + Facts) -->
+                <div class="content-row">
+                    <!-- Champion Shares Chart -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title"><i data-lucide="pie-chart"></i> Title Distribution by Country</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="championChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Quick Facts Sidebar -->
+                    <div class="dashboard-panel">
+                        <div class="panel-header">
+                            <h2 class="panel-title"><i data-lucide="sparkles"></i> Historical Trivia & Facts</h2>
+                        </div>
+                        <div class="facts-list">
+                            <div class="fact-item">
+                                <span class="fact-bullet">1</span>
+                                <span class="fact-text"><strong>Virat Kohli</strong> holds the record for most runs in a single edition, scoring <strong>765 runs</strong> in 2023.</span>
+                            </div>
+                            <div class="fact-item">
+                                <span class="fact-bullet">2</span>
+                                <span class="fact-text"><strong>Mitchell Starc</strong> holds the record for most wickets in a single edition, taking <strong>27 wickets</strong> in 2019.</span>
+                            </div>
+                            <div class="fact-item">
+                                <span class="fact-bullet">3</span>
+                                <span class="fact-text"><strong>Glenn Maxwell</strong> scored the fastest double century in CWC history (128 balls) in a heroic chase vs Afghanistan in 2023.</span>
+                            </div>
+                            <div class="fact-item">
+                                <span class="fact-bullet">4</span>
+                                <span class="fact-text">The CWC 2019 Final is considered the most dramatic, decided on <strong>boundary countback</strong> after tied Super Overs.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= STANDINGS TAB ================= -->
+            <section id="standings" class="tab-content">
+                <div class="dashboard-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i data-lucide="table"></i> Tournament Standings</h2>
+                        <div class="header-actions">
+                            <select id="standings-edition-select" class="select-dropdown">
+                                <option value="2023">CWC 2023 Edition</option>
+                                <option value="2019">CWC 2019 Edition</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="stats-table" id="standings-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Team</th>
+                                    <th>Played</th>
+                                    <th>Won</th>
+                                    <th>Lost</th>
+                                    <th>Tie/NR</th>
+                                    <th>Points</th>
+                                    <th>Net Run Rate (NRR)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="standings-tbody">
+                                <!-- Injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Highlights Card for selected edition -->
+                <div class="stats-grid" id="edition-summary-cards">
+                    <!-- Injected via JavaScript -->
+                </div>
+            </section>
+
+            <!-- ================= RECORDS TAB ================= -->
+            <section id="records" class="tab-content">
+                <div class="sub-nav">
+                    <button class="btn-tab active" id="btn-records-batting">Batting Records</button>
+                    <button class="btn-tab" id="btn-records-bowling">Bowling Records</button>
+                    
+                    <div style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+                        <span style="font-size: 13px; color: var(--text-secondary); font-weight: 500;">Filter Edition:</span>
+                        <select id="records-edition-select" class="select-dropdown">
+                            <option value="alltime">All-Time CWC History</option>
+                            <option value="2023">CWC 2023 Stats</option>
+                            <option value="2019">CWC 2019 Stats</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Batting Records Container -->
+                <div class="dashboard-panel" id="batting-records-panel">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i data-lucide="award"></i> Batting Leaderboard</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Team</th>
+                                    <th>Matches</th>
+                                    <th>Runs</th>
+                                    <th>Average</th>
+                                    <th>Strike Rate</th>
+                                    <th>Highest Score</th>
+                                    <th>100s / 50s</th>
+                                </tr>
+                            </thead>
+                            <tbody id="batting-records-tbody">
+                                <!-- Injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Bowling Records Container -->
+                <div class="dashboard-panel" id="bowling-records-panel" style="display: none;">
+                    <div class="panel-header">
+                        <h2 class="panel-title"><i data-lucide="shield"></i> Bowling Leaderboard</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="stats-table">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Player</th>
+                                    <th>Team</th>
+                                    <th>Matches</th>
+                                    <th>Wickets</th>
+                                    <th>Average</th>
+                                    <th>Economy Rate</th>
+                                    <th>Best Bowling</th>
+                                    <th>5-Wkt Hauls</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bowling-records-tbody">
+                                <!-- Injected via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= COMPARISONS TAB ================= -->
+            <section id="comparisons" class="tab-content">
+                <div class="sub-nav">
+                    <button class="btn-tab active" id="btn-compare-teams">Team Head-to-Head</button>
+                    <button class="btn-tab" id="btn-compare-players">Player Side-by-Side</button>
+                </div>
+
+                <!-- Team Comparison Panel -->
+                <div id="team-compare-panel" class="tab-sub-content">
+                    <div class="compare-container">
+                        <!-- Team A Card -->
+                        <div class="compare-card">
+                            <div class="compare-select-box">
+                                <label for="team-a-select">Select Team A</label>
+                                <select id="team-a-select" class="compare-select">
+                                    <!-- Populate via JS -->
+                                </select>
+                            </div>
+                            <div class="compare-avatar" id="team-a-avatar">🏏</div>
+                            <h3 id="team-a-name" style="font-size: 20px;">Team A</h3>
+                            
+                            <div class="compare-metrics" id="team-a-metrics">
+                                <!-- Dynamic metrics -->
+                            </div>
+                        </div>
+
+                        <!-- Team B Card -->
+                        <div class="compare-card">
+                            <div class="compare-select-box">
+                                <label for="team-b-select">Select Team B</label>
+                                <select id="team-b-select" class="compare-select">
+                                    <!-- Populate via JS -->
+                                </select>
+                            </div>
+                            <div class="compare-avatar" id="team-b-avatar" style="border-color: var(--accent-gold);">🏆</div>
+                            <h3 id="team-b-name" style="font-size: 20px;">Team B</h3>
+                            
+                            <div class="compare-metrics" id="team-b-metrics">
+                                <!-- Dynamic metrics -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Head to Head Summary Box -->
+                    <div class="dashboard-panel" style="margin-top: 24px;">
+                        <div class="panel-header">
+                            <h2 class="panel-title"><i data-lucide="swords"></i> CWC Match Records</h2>
+                        </div>
+                        <div class="h2h-summary" id="team-h2h-summary">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Player Comparison Panel -->
+                <div id="player-compare-panel" class="tab-sub-content" style="display: none;">
+                    <div class="compare-container">
+                        <!-- Player A Card -->
+                        <div class="compare-card">
+                            <div class="compare-select-box">
+                                <label for="player-a-select">Select Player A</label>
+                                <select id="player-a-select" class="compare-select">
+                                    <!-- Populate via JS -->
+                                </select>
+                            </div>
+                            <div class="compare-avatar" id="player-a-avatar">👤</div>
+                            <h3 id="player-a-name" style="font-size: 20px;">Player A</h3>
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;" id="player-a-role">Batsman</div>
+                            
+                            <div class="compare-metrics" id="player-a-metrics">
+                                <!-- Dynamic metrics -->
+                            </div>
+                        </div>
+
+                        <!-- Player B Card -->
+                        <div class="compare-card">
+                            <div class="compare-select-box">
+                                <label for="player-b-select">Select Player B</label>
+                                <select id="player-b-select" class="compare-select">
+                                    <!-- Populate via JS -->
+                                </select>
+                            </div>
+                            <div class="compare-avatar" id="player-b-avatar" style="border-color: var(--accent-gold);">👤</div>
+                            <h3 id="player-b-name" style="font-size: 20px;">Player B</h3>
+                            <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;" id="player-b-role">Batsman</div>
+                            
+                            <div class="compare-metrics" id="player-b-metrics">
+                                <!-- Dynamic metrics -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= TRIVIA QUIZ TAB ================= -->
+            <section id="quiz" class="tab-content">
+                <div class="quiz-container">
+                    <!-- Quiz Card -->
+                    <div class="quiz-card" id="quiz-active-card">
+                        <div class="quiz-progress-container">
+                            <span>Question <span id="quiz-question-num">1</span> of 10</span>
+                            <div class="quiz-progress-bar">
+                                <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+                            </div>
+                            <div class="quiz-timer" id="quiz-timer-box">
+                                <i data-lucide="timer"></i>
+                                <span id="quiz-time-sec">20</span>s
+                            </div>
+                        </div>
+
+                        <div class="quiz-question" id="quiz-question-text">
+                            Which country won the inaugural ICC Cricket World Cup in 1975?
+                        </div>
+
+                        <div class="quiz-options" id="quiz-options-container">
+                            <!-- Injected via JavaScript -->
+                        </div>
+
+                        <!-- Feedback Box -->
+                        <div class="quiz-feedback" id="quiz-feedback-box">
+                            <div class="quiz-feedback-title" id="quiz-feedback-title">
+                                <i data-lucide="check-circle-2" class="quiz-feedback-icon"></i>
+                                <span>Correct!</span>
+                            </div>
+                            <div class="quiz-feedback-desc" id="quiz-feedback-desc">
+                                West Indies defeated Australia by 17 runs in the final at Lord's to win the first World Cup.
+                            </div>
+                        </div>
+
+                        <button class="btn-next" id="quiz-next-btn" style="display: none;">Next Question &rarr;</button>
+                    </div>
+
+                    <!-- Results Card -->
+                    <div class="quiz-card" id="quiz-results-card" style="display: none;">
+                        <div class="quiz-results">
+                            <div class="quiz-score-badge">
+                                <span class="quiz-score-num" id="quiz-final-score">8/10</span>
+                                <span class="quiz-score-lbl">Score</span>
+                            </div>
+                            <h2 class="quiz-results-title" id="quiz-results-headline">Outstanding Cricketing Mind!</h2>
+                            <p class="quiz-results-desc" id="quiz-results-text">
+                                You know your World Cup history extremely well. You are ready to captain an international analytics squad!
+                            </p>
+                            <button class="btn-restart" id="quiz-restart-btn">
+                                <i data-lucide="rotate-ccw" style="width: 14px; height: 14px; vertical-align: middle; margin-right: 6px;"></i> Play Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom JavaScript -->
+    <script src="cwc_script.js" defer></script>
+</body>
+</html>
